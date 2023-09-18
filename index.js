@@ -151,15 +151,45 @@ ${StarWarsCharacter.characters.map(
 document.getElementById("Star").innerHTML = Star;
 
 function handle_onClick() {
-  document.getElementById("Star").style.display = "inline";
+  let Button = document.getElementById("Button");
+  let starWars = document.getElementById("Star");
 
-  const buttonStyle = document.getElementById("Button");
-  buttonStyle.innerText = "Karakterleri Sakla";
-  buttonStyle.style.backgroundColor = "green";
+  if (Button.innerHTML === "Karakterleri Sakla") {
+    Button.innerHTML = "Karakterleri Gönder";
+  } else {
+    Button.innerHTML = "Karakterleri Sakla";
+  }
 
-  let elements = document.querySelector("text-center my-3");
+  if (starWars.style.display === "none") {
+    starWars.style.display = "block";
+  } else {
+    starWars.style.display = "none";
+  }
 
-  elements.addEventListener("click", function () {
-    this.setAttribute("data-clicked", "true");
-  });
+  Button.classList.toggle("ButtonStyle");
 }
+
+for (let i = 0; i < StarWarsCharacter.characters.length; i++) {
+  const a = StarWarsCharacter.characters[i].homeworld;
+  let HomeworldInCharacter = [];
+  HomeworldInCharacter.push(a);
+  console.log(HomeworldInCharacter);
+
+  console.log("a" + a);
+
+  // function result(a) {
+  //   return a.filter((item, index) => a.indexOf(item) === index);
+  // }
+
+  // console.log(result(a));
+
+  // console.log(b + " " + "b");
+  // console.log(HomeworldInCharacter + "karakter");
+}
+
+let arr = ["apple", "mango", "apple", "orange", "mango", "mango"];
+
+function removeDuplicates(arr) {
+  return arr.filter((item, index) => arr.indexOf(item) === index);
+}
+console.log(removeDuplicates(arr));

@@ -4,7 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>STAR WARS</title>
-    <style></style>
+    <style>
+      #buttonStyle {
+        margin: auto;
+        text-align: center;
+        width: 60%;
+        padding: 10px;
+      }
+      .ButtonStyle {
+        background-color: green;
+        color: aliceblue;
+      }
+    </style>
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
@@ -14,9 +25,11 @@
     />
   </head>
   <body>
-    <button id="Button" onclick="handle_onClick()" class="text-center my-3">
-      Karakterleri Göster
-    </button>
+    <div id="buttonStyle">
+      <button id="Button" onclick="handle_onClick()" class="text-center my-3">
+        Karakterleri Göster
+      </button>
+    </div>
 
     <div id="Star"></div>
     <script
