@@ -169,27 +169,34 @@ function handle_onClick() {
   Button.classList.toggle("ButtonStyle");
 }
 
-for (let i = 0; i < StarWarsCharacter.characters.length; i++) {
-  const a = StarWarsCharacter.characters[i].homeworld;
-  let HomeworldInCharacter = [];
-  HomeworldInCharacter.push(a);
-  console.log(HomeworldInCharacter);
+// for (let i = 0; i < StarWarsCharacter.characters.length; i++) {
+//   const a = StarWarsCharacter.characters[i].homeworld;
+//   let HomeworldInCharacter = [];
+//   HomeworldInCharacter.push(a);
+//   console.log(HomeworldInCharacter);
 
-  console.log("a" + a);
+//   console.log("a" + a);
 
-  // function result(a) {
-  //   return a.filter((item, index) => a.indexOf(item) === index);
-  // }
+//   function result(a) {
+//     return a.filter((item, index) => a.indexOf(item) === index);
+//   }
 
-  // console.log(result(a));
+//   console.log(result(a));
 
-  // console.log(b + " " + "b");
-  // console.log(HomeworldInCharacter + "karakter");
-}
+//   console.log(b + " " + "b");
+//   console.log(HomeworldInCharacter + "karakter");
+//}
 
-let arr = ["apple", "mango", "apple", "orange", "mango", "mango"];
+let homeworldsRaw = [
+  StarWarsCharacter.characters.map((item) => item.homeworld),
+  (null || undefined) ?? "other",
+];
 
-function removeDuplicates(arr) {
-  return arr.filter((item, index) => arr.indexOf(item) === index);
-}
-console.log(removeDuplicates(arr));
+document.getElementById("karaterhome").innerHTML = homeworldsRaw;
+console.log(homeworldsRaw);
+
+let homeworldsUnique = [
+  ...new Set(StarWarsCharacter.characters.map((x) => x.homeworld)),
+];
+
+console.log(homeworldsUnique);
