@@ -169,34 +169,40 @@ function handle_onClick() {
   Button.classList.toggle("ButtonStyle");
 }
 
-// for (let i = 0; i < StarWarsCharacter.characters.length; i++) {
-//   const a = StarWarsCharacter.characters[i].homeworld;
-//   let HomeworldInCharacter = [];
-//   HomeworldInCharacter.push(a);
-//   console.log(HomeworldInCharacter);
-
-//   console.log("a" + a);
-
-//   function result(a) {
-//     return a.filter((item, index) => a.indexOf(item) === index);
-//   }
-
-//   console.log(result(a));
-
-//   console.log(b + " " + "b");
-//   console.log(HomeworldInCharacter + "karakter");
-//}
-
 let homeworldsRaw = [
   StarWarsCharacter.characters.map((item) => item.homeworld),
-  (null || undefined) ?? "other",
+  // (item.homeworld = (null || undefined) ?? "other"),
 ];
 
-document.getElementById("karaterhome").innerHTML = homeworldsRaw;
-console.log(homeworldsRaw);
+console.log("a" + +homeworldsRaw);
 
 let homeworldsUnique = [
   ...new Set(StarWarsCharacter.characters.map((x) => x.homeworld)),
 ];
 
 console.log(homeworldsUnique);
+
+let homeworldsLowercase = [];
+
+for (let i = 0; i < homeworldsUnique.length; i++) {
+  homeworldsLowercase.push(homeworldsUnique[i].toLowerCase());
+}
+
+console.log(homeworldsLowercase);
+
+const homeworlds = homeworldsLowercase;
+
+const RadioInput = `
+<div>
+${homeworlds.map(
+  (item) => `
+<div class="form-check">
+<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+<label class="form-check-label" for="flexRadioDefault2">${item}
+
+</div>
+`
+)}
+</div>`;
+
+document.getElementById("karaterhome").innerHTML = RadioInput;
