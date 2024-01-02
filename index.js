@@ -112,7 +112,6 @@ const StarWarsCharacter = {
       id: 20,
       name: "Yoda",
       pic: "https://vignette.wikia.nocookie.net/starwars/images/d/d6/Yoda_SWSB.png",
-      homeworld: "other",
     },
     {
       id: 21,
@@ -123,33 +122,38 @@ const StarWarsCharacter = {
   ],
 };
 
-document.getElementById("Star").style.display = "none";
+const fillCharactersContanier = (arr) => {
+  let characterHTML = "";
+  arr.map((item) => {
+    characterHTML += createCharactersCardHtml(
+      item.pic,
+      item.name,
+      item.homeworld
+    );
+  });
+  document.getElementById("Star").innerHTML = characterHTML;
+};
 
-const Star = `
-<div>
-${StarWarsCharacter.characters.map(
-  (item) => `
+let filteredHomeworld = null;
 
-  <div class="container">
-  <div class="row">
-  <div  class="list-group list-group-flush">
-   <div class="card" style="width: 18rem;">
-  <img src="${item.pic}" class="card-img-top" alt="Star Wars">
-  <div class="card-body">
-    <h5 class="card-title">CHARACTER NAME: ${item.name}</h5>
-    <p class="card-text"> HOMEWORLD: ${item.homeworld} </p>
-  </div>
-</div>
-  </div>
-  </div>
- 
-</div>
-    `
-)}
-</div>
-`;
+const createCharactersCardHtml = (pic, name, homeworld) => `
+             
+                <div>
+                  <div class="list-group list-group-flush p-5">
+                    <div class="card" style="width: 18rem">
+                      <img src="${pic}" class="card-img-top" style="max-height:375px " alt="Star Wars" />
+                      <div class="card-body">
+                        <div class="card-title">CHARACTER NAME: ${name}</div>
+                        <p class="card-text">HOMEWORLD: ${homeworld}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
 
-document.getElementById("Star").innerHTML = Star;
+    `;
+
+fillCharactersContanier(StarWarsCharacter.characters);
 
 function handle_onClick() {
   let Button = document.getElementById("Button");
@@ -161,49 +165,61 @@ function handle_onClick() {
     Button.innerHTML = "Karakterleri Sakla";
   }
 
-  if (starWars.style.display === "none") {
-    starWars.style.display = "block";
-  } else {
-    starWars.style.display = "none";
-  }
+  starWars.classList.toggle("d-none");
 
   Button.classList.toggle("ButtonStyle");
 }
 
-let homeworldsRaw = [
-  StarWarsCharacter.characters.map((item) => item.homeworld),
-  // (item.homeworld = (null || undefined) ?? "other"),
-];
+let homeworldsRaw = StarWarsCharacter.characters.map(
+  (item) => item.homeworld || "other"
+);
 
-console.log("a" + +homeworldsRaw);
+let homeworldsUnique = homeworldsRaw.filter(
+  (item, pos) => homeworldsRaw.indexOf(item) == pos
+);
 
-let homeworldsUnique = [
-  ...new Set(StarWarsCharacter.characters.map((x) => x.homeworld)),
-];
-
-console.log(homeworldsUnique);
-
-let homeworldsLowercase = [];
-
-for (let i = 0; i < homeworldsUnique.length; i++) {
-  homeworldsLowercase.push(homeworldsUnique[i].toLowerCase());
-}
-
-console.log(homeworldsLowercase);
+let homeworldsLowercase = homeworldsUnique.map((item) => item.toLowerCase());
 
 const homeworlds = homeworldsLowercase;
 
-const RadioInput = `
-<div>
-${homeworlds.map(
-  (item) => `
-<div class="form-check">
-<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-<label class="form-check-label" for="flexRadioDefault2">${item}
+const createRadioInputHtml = (item) =>
+  `
+   <div>
+      <div class="form-check">
+        <input
+          class="form-check-input "
+          type="radio"
+          name="flexRadioDefault"
+          checked
+          data-home="${item}"
+          id="flexRadioDefault-${item}"
+        />
+        <label class="form-check-label text-white bg-dark" for="flexRadioDefault-${item}">${item}</label>
+      </div>
+    </div>
+`;
 
-</div>
-`
-)}
-</div>`;
+let radioInputHTML = "";
 
-document.getElementById("karaterhome").innerHTML = RadioInput;
+homeworlds.map((item) => {
+  radioInputHTML += createRadioInputHtml(item);
+});
+
+document.getElementById("characterHome").innerHTML = radioInputHTML;
+
+let radioButtons = document.getElementsByClassName("form-check-input");
+
+for (let i = 0; i < radioButtons.length; i++) {
+  radioButtons[i].addEventListener("click", function () {
+    filteredHomeworld = this.getAttribute("data-home");
+    let homeFilterd = StarWarsCharacter.characters.filter(
+      (item) => filteredHomeworld === item.homeworld
+    );
+    fillCharactersContanier(homeFilterd);
+  });
+}
+
+const handle_reset_filter = () => {
+  filteredHomeworld = null;
+  fillCharactersContanier(StarWarsCharacter.characters);
+};
